@@ -1,0 +1,184 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Base ─────────────────────────────────────────────────────────────────── */
+@layer base {
+  *, *::before, *::after { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    @apply font-sans antialiased;
+    background: #0a0a14;
+    color: #e2e8f0;
+    min-height: 100vh;
+  }
+
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { @apply bg-dark-400 rounded-full; }
+  ::-webkit-scrollbar-thumb:hover { @apply bg-primary-500; }
+
+  ::selection { @apply bg-primary-500/40 text-white; }
+}
+
+/* ─── Component Utilities ───────────────────────────────────────────────────── */
+@layer components {
+  /* Glass morphism card */
+  .glass {
+    background: rgba(22, 22, 37, 0.7);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(99, 102, 241, 0.15);
+  }
+
+  .glass-light {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(99, 102, 241, 0.15);
+  }
+
+  /* Gradient text */
+  .gradient-text {
+    @apply bg-gradient-to-r from-primary-400 via-accent-400 to-primary-400 bg-clip-text text-transparent;
+    background-size: 200% auto;
+    animation: gradient-shift 4s linear infinite;
+  }
+
+  /* Glow effects */
+  .glow-primary {
+    box-shadow: 0 0 20px rgba(99, 102, 241, 0.3), 0 0 40px rgba(99, 102, 241, 0.1);
+  }
+  .glow-accent {
+    box-shadow: 0 0 20px rgba(236, 72, 153, 0.3), 0 0 40px rgba(236, 72, 153, 0.1);
+  }
+
+  /* Shimmer loading effect */
+  .shimmer {
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.0) 0%,
+      rgba(255, 255, 255, 0.08) 50%,
+      rgba(255, 255, 255, 0.0) 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+  }
+
+  /* Button base */
+  .btn-primary {
+    @apply px-5 py-2.5 bg-primary-600 hover:bg-primary-500 text-white font-medium rounded-xl
+           transition-all duration-200 active:scale-95 flex items-center gap-2;
+  }
+
+  .btn-ghost {
+    @apply px-4 py-2 text-slate-400 hover:text-white hover:bg-dark-500 rounded-xl
+           transition-all duration-200 flex items-center gap-2;
+  }
+
+  .btn-danger {
+    @apply px-4 py-2 bg-red-500/20 hover:bg-red-500/30 text-red-400 rounded-xl
+           transition-all duration-200 flex items-center gap-2;
+  }
+
+  /* Input base */
+  .input-base {
+    @apply w-full bg-dark-700 border border-dark-400 rounded-xl px-4 py-3 text-slate-100
+           placeholder-slate-500 focus:outline-none focus:border-primary-500 focus:ring-2
+           focus:ring-primary-500/20 transition-all duration-200;
+  }
+
+  /* Chat bubble */
+  .bubble-sent {
+    @apply bg-primary-600/80 text-white rounded-2xl rounded-br-sm px-4 py-3 max-w-xs lg:max-w-md;
+  }
+  .bubble-received {
+    @apply glass text-slate-100 rounded-2xl rounded-bl-sm px-4 py-3 max-w-xs lg:max-w-md;
+  }
+
+  /* Language tag */
+  .lang-tag {
+    @apply text-xs font-mono bg-primary-500/20 text-primary-400 px-2 py-0.5 rounded-full border border-primary-500/30;
+  }
+
+  /* Waveform bar */
+  .wave-bar {
+    @apply w-1 rounded-full bg-primary-400;
+    animation: wave 1.5s ease-in-out infinite;
+  }
+}
+
+/* ─── Keyframes ─────────────────────────────────────────────────────────────── */
+@keyframes gradient-shift {
+  0% { background-position: 0% center; }
+  100% { background-position: 200% center; }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes wave {
+  0%, 100% { transform: scaleY(0.4); opacity: 0.6; }
+  50% { transform: scaleY(1); opacity: 1; }
+}
+
+@keyframes pulse-ring {
+  0% { transform: scale(1); opacity: 1; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
+
+@keyframes slide-up {
+  from { transform: translateY(12px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes slide-in-right {
+  from { transform: translateX(20px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+/* ─── Custom Utilities ──────────────────────────────────────────────────────── */
+.slide-up { animation: slide-up 0.3s ease-out; }
+.slide-in-right { animation: slide-in-right 0.3s ease-out; }
+
+/* Voice recording pulse */
+.recording-pulse::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  background: rgba(239, 68, 68, 0.4);
+  animation: pulse-ring 1.5s ease-out infinite;
+}
+
+/* Emotion badge */
+.emotion-happy { @apply bg-yellow-500/20 text-yellow-400 border-yellow-500/30; }
+.emotion-sad { @apply bg-blue-500/20 text-blue-400 border-blue-500/30; }
+.emotion-angry { @apply bg-red-500/20 text-red-400 border-red-500/30; }
+.emotion-neutral { @apply bg-slate-500/20 text-slate-400 border-slate-500/30; }
+.emotion-excited { @apply bg-orange-500/20 text-orange-400 border-orange-500/30; }
+.emotion-fearful { @apply bg-purple-500/20 text-purple-400 border-purple-500/30; }
+.emotion-surprised { @apply bg-green-500/20 text-green-400 border-green-500/30; }
+
+/* Tooltip */
+.tooltip {
+  @apply absolute z-50 px-3 py-2 text-xs text-white glass rounded-lg shadow-xl
+         pointer-events-none opacity-0 transition-opacity duration-200 whitespace-nowrap;
+}
+.tooltip-trigger:hover .tooltip { @apply opacity-100; }
+
+/* Light mode overrides */
+.light body { background: #f1f5f9; color: #1e293b; }
+.light .glass {
+  background: rgba(255, 255, 255, 0.8);
+  border-color: rgba(99, 102, 241, 0.2);
+}
+
+/* Scrollable areas */
+.scrollbar-thin { scrollbar-width: thin; }
+.scrollbar-none { scrollbar-width: none; }
+.scrollbar-none::-webkit-scrollbar { display: none; }
